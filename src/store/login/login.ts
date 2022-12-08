@@ -34,30 +34,26 @@ const loginModule: Module<ILoginState, IRootState> = {
       state.userInfo = info
     },
     setUserMenu(state, menu) {
-      console.log(menu)
-
       // 因为他的icon=el-icon-monitor，但是只需要是monitor
       for (const item of menu) {
         if (item.icon.includes('el-icon')) {
+          console.log('icon change')
           item.icon = item.icon.slice(8)
         }
       }
       state.userMenu = menu
-
       // 配置动态路由
       const routes = menuPatchRouter(menu)
       routes.forEach((route) => {
         router.addRoute('main', route)
       })
-      // console.log(routes)
+      console.log(routes)
     }
   },
   // 异步状态变更
   actions: {
     // 发送post请求，获取账号id和token
     async accountLogin({ commit }, account: IAccount) {
-      console.log('actions')
-
       const loginResult = await accountLoginRequest(account)
 
       const { id, token } = loginResult.data
@@ -72,7 +68,7 @@ const loginModule: Module<ILoginState, IRootState> = {
       const userMenu = await userMenuRequestByRoleId(
         userInfoResult.data.role.id
       )
-      console.log(userMenu)
+      // console.log(userMenu)
       localCache.setCache('userMenu', userMenu.data)
 
       commit('setUserMenu', userMenu.data)
@@ -91,9 +87,9 @@ const loginModule: Module<ILoginState, IRootState> = {
       if (userInfo) {
         commit('setUserInfo', userInfo)
       }
-      const userMenus = localCache.getCache('userMenus')
-      if (userMenus) {
-        commit('setUserMenu', userMenus)
+      const userMenu = localCache.getCache('userMenu')
+      if (userMenu) {
+        commit('setUserMenu', userMenu)
       }
     }
   }

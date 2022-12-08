@@ -13,7 +13,7 @@ type formtype = 'input' | 'password' | 'datepicker' | 'select'
 
 export interface IForm {
   formProps: formPropsType[]
-  labelWidth?: string | number
+  labelWidth?: string
   inline?: boolean
   rules?: any
   styleCustom?: object
