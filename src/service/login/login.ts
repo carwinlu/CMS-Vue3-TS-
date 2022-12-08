@@ -24,8 +24,6 @@ export function UserInfoRequest(id: number) {
 
 // 获取首页的用户菜单
 export function userMenuRequestByRoleId(id: number) {
-  console.log('menu Getting')
-
   return myRequest.get<ILoginResult>({
     url: loginAPI.UserList + id + '/menu'
   })

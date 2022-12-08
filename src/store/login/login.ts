@@ -34,6 +34,8 @@ const loginModule: Module<ILoginState, IRootState> = {
       state.userInfo = info
     },
     setUserMenu(state, menu) {
+      console.log(menu)
+
       // 因为他的icon=el-icon-monitor，但是只需要是monitor
       for (const item of menu) {
         if (item.icon.includes('el-icon')) {
@@ -71,25 +73,27 @@ const loginModule: Module<ILoginState, IRootState> = {
         userInfoResult.data.role.id
       )
       console.log(userMenu)
-      localCache.setCache('userMenu', userMenu)
+      localCache.setCache('userMenu', userMenu.data)
 
       commit('setUserMenu', userMenu.data)
       // 跳到首页
       router.push('/main')
     },
-    // setupStore
+    // setupStore;
+    // 为什么不直接在一开始就是用localCache？
+    //   保证数据来源的明确，后期debug更方便
     loadLocalLogin({ commit }) {
       const token = localCache.getCache('token')
       if (token) {
-        commit('changeToken', token)
+        commit('setToken', token)
       }
       const userInfo = localCache.getCache('userInfo')
       if (userInfo) {
-        commit('changeUserInfo', userInfo)
+        commit('setUserInfo', userInfo)
       }
       const userMenus = localCache.getCache('userMenus')
       if (userMenus) {
-        commit('changeUserMenus', userMenus)
+        commit('setUserMenu', userMenus)
       }
     }
   }

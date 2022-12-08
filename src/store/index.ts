@@ -20,7 +20,7 @@ export function useStore(): Store<IStoreType> {
 }
 // 因为动态路由注册如不点击登录页面就不会调用login中dcommit。也不会注册到动态路由
 export function setupStore() {
-  store.dispatch('login/loadLocalLogin')
+  store.dispatch('loginModule/loadLocalLogin')
 }
 
 export default store

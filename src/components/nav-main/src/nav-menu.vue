@@ -10,7 +10,7 @@
       :collapse="collapse" :default-active="activeItem">
 
       <!-- 遍历menu-item -->
-      <template v-for="item in menuList.data" :key="item.id">
+      <template v-for="item in menuList" :key="item.id">
         <!-- 一级菜单 -->
         <el-sub-menu :index="item.id + ''" v-if="(item.type === 1)">
           <!-- 因为他的icon=el-icon-monitor，但是只需要是monitor -->
