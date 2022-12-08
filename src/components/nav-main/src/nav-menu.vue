@@ -44,7 +44,9 @@
 import { defineComponent, computed, ref } from 'vue'
 import { useStore } from '@/store'
 import { Monitor } from '@element-plus/icons-vue'
-import { useRouter } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
+import { getMenuItemByRoute } from '@/utils/patch-router'
+
 export default defineComponent({
   props: {
     collapse: {
@@ -65,7 +67,10 @@ export default defineComponent({
     }
     // default-active-item;根据index => item.id
     // route => item.id
-    const activeItem = ref('4')
+    const currentPath = useRoute().path
+    const findIndex = getMenuItemByRoute(menuList.value, currentPath)
+    const activeItem = ref(findIndex)
+
     return {
       menuList,
       activeItem,

@@ -12,7 +12,7 @@ import type { IAccount } from '@/service/login/types'
 import localCache from '@/utils/cache'
 
 import router from '@/router'
-import { menuPatchRouter } from '../utils/patch-router'
+import { menuPatchRouter } from '../../utils/patch-router'
 
 // Module中要传入两个泛型<该模块state类型，根模块state类型>
 const loginModule: Module<ILoginState, IRootState> = {
@@ -37,7 +37,6 @@ const loginModule: Module<ILoginState, IRootState> = {
       // 因为他的icon=el-icon-monitor，但是只需要是monitor
       for (const item of menu) {
         if (item.icon.includes('el-icon')) {
-          console.log('icon change')
           item.icon = item.icon.slice(8)
         }
       }
@@ -47,7 +46,7 @@ const loginModule: Module<ILoginState, IRootState> = {
       routes.forEach((route) => {
         router.addRoute('main', route)
       })
-      console.log(routes)
+      // console.log(routes)
     }
   },
   // 异步状态变更

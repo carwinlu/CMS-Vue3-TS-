@@ -5,22 +5,18 @@
       <component :is="isCollapse ? 'Expand' : 'Fold'" @click="collapseChange"></component>
     </el-icon>
     <!-- breadcrumb -->
-    <el-breadcrumb :separator-icon="ArrowRight">
-      <el-breadcrumb-item :to="{ path: '/main' }">homepage</el-breadcrumb-item>
-      <el-breadcrumb-item>promotion management</el-breadcrumb-item>
-      <el-breadcrumb-item>promotion list</el-breadcrumb-item>
-      <el-breadcrumb-item>promotion detail</el-breadcrumb-item>
-    </el-breadcrumb>
+    <breadcrumbs />
     <!-- 用户信息 -->
   </div>
 </template>
 <script lang="ts">
-
-
 import { defineComponent, ref } from 'vue'
-// element
-import { ArrowRight } from '@element-plus/icons-vue'
+import breadcrumbs from '@/baseui/breadcrumbs'
+
 export default defineComponent({
+  components: {
+    breadcrumbs
+  },
   emits: ['foldChange'],
   setup(props, { emit }) {
     let isCollapse = ref(false)
@@ -30,7 +26,6 @@ export default defineComponent({
     }
     return {
       isCollapse,
-      ArrowRight,
       collapseChange
     }
   }
@@ -46,8 +41,5 @@ export default defineComponent({
     margin-top: 0.25em;
   }
 
-  .el-breadcrumb {
-    margin: 1.5em 1em 00.5em;
-  }
 }
 </style>

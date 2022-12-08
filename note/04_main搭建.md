@@ -132,6 +132,19 @@
    
    
   * 怎么动态绑定Form-item的default-active？
-    1. 根据我的route去匹配menu，得到名字
+    1. 根据我的路由地址去匹配menu，得到item.id =>default-active
+       1. 获取路由地址
+          ```ts
+          const currentPath = useRoute().path
+          ```
+
+          *uesRoute() 和 useRouter() 的差别*
+             * route 是一个路由对象，每个路由都有对应的路由对象，是一个局部的对象；可用于获取对应的name、path、params、query等
+             * router 是VueRouter的一个全局对象，通过`Vue.use(VueRouter)和VueRouter构造函数`得到一个*router的实例对象*，他包含了所有的路由包含了许多关键的对象和属性。
+
+       2. 匹配menu
+       3. 如果path为‘/main’，就映射到第一个item的路径上
+
+
     2. 面包屑可根据同一思路：
-       1. 在此基础上，获取上级组件名字
+       1. 在此基础上，保存上级组件名字
