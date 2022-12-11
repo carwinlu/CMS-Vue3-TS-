@@ -105,9 +105,6 @@
 2. setupStore() ->注册动态路由
 3. 路由守卫回调
 
-## header 搭建
-
-### 面包屑
 
 ## 页面搭建
 
@@ -130,7 +127,7 @@
     3. 样式抽离
     4. Q：怎么把我们写el-form的属性提醒作为类型提出来呢？这样就不用写一堆lineWidth这种了
    
-   
+### 面包屑 & default-active
   * 怎么动态绑定Form-item的default-active？
     1. 根据我的路由地址去匹配menu，得到item.id =>default-active
        1. 获取路由地址
@@ -148,3 +145,54 @@
 
     2. 面包屑可根据同一思路：
        1. 在此基础上，保存上级组件名字
+
+```vue
+    // 因为itemNames是依托下列条件变Q:化的属性，所有要用计算属性包裹；
+    // 这也是为什么要以参数形式传输path和menu的原因；方便监听其变化
+    // Q:computed的原理是什么？
+    const itemNames = computed(() => {
+      const menu = store.state.loginModule.userMenu
+      const currentPath = useRoute().path
+      const menuName = getParentMenu(menu, currentPath)
+      return menuName
+    })
+```
+
+### 双向绑定表单
+
+### 表格 table组件
+1. store & request：请求（用户菜单）的数据
+2. 使用el的table组件：传入两个props：menu的数据、每个column的参数整合（listProps[]）；生成表格
+3. 调整表格样式
+4. 对表格的某些列进行特殊处理：如转化为一个加粗或者button、又或者对数据进行处理
+   1. 通过插槽进行状态按钮管理、时间转换
+   2. 可选项
+      1. 序号列
+      2. 选择列
+      3. 数据增删列
+   3. header & footer 插槽
+5. ts对全局变量的报错: src/types/filter.d.ts
+   ```ts
+   import { filters } from '@/global/register-globalVarias'
+   declare module '@vue/runtime-core' {
+     export interface ComponentCustomProperties {
+       $filters: typeof filters
+     }
+   }
+ ```
+   
+
+#### remain question：
+* 怎么把我们写el-form的属性提醒作为类型提出来呢？这样就不用写一堆lineWidth这种了
+* computed的原理？
+* 表格插槽问题：为啥一定要写这个 :row="scope.row"
+  ```vue
+          <el-table-column v-bind="column" align="center">
+          <template #default="scope">
+            <!-- 为啥一定要写这个 :row="scope.row" -->
+            <slot :name="column.slotName" :row="scope.row">
+              {{ scope.row[column.prop] }}
+            </slot>
+          </template>
+        </el-table-column>
+  ```

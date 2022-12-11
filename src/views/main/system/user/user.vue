@@ -1,29 +1,45 @@
 <template>
   <div class="user">
-    <!-- 为什么？！ -->
-    <!-- v-bind='post'  === :id='post.id' :name='post.name' -->
-    <myForm v-bind="formConfig" />
+    <pageSearch :formConfig="formConfig" />
+    <pageTable :usersList="usersList" />
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
-import myForm from '@/baseui/form';
+import { defineComponent, computed } from 'vue'
+import { pageSearch, pageTable } from '@/components/page-main'
 import { formConfig } from './config/userFormConfig'
+import { useStore } from '@/store'
 
 export default defineComponent({
   name: 'user',
   components: {
-    myForm
+    pageSearch,
+    pageTable,
+
   },
   setup() {
+    const store = useStore()
+    store.dispatch('system/getUsersList', {
+      url: '/users/list',
+      queryInfo: {
+        "offset": 0,
+        "size": 10
+      }
+    })
+    const usersList = computed(() => store.state.system.usersList)
     return {
-      formConfig
+      formConfig,
+      usersList
     }
   }
 })
 </script>
 
 <style scoped>
+.user {
+  background-color: #f0f2f5;
+}
+
 
 </style>

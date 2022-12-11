@@ -6,7 +6,7 @@
         <navMenu :collapse="isCollapse" />
       </el-aside>
       <!-- 主容器 -->
-      <el-container class="nav-container">
+      <el-container class="nav-container" :style="{ 'left': isCollapse ? '4em' : '13.25em' }">
         <el-header class="nav-header">
           <navHeader @foldChange="foldChange" />
         </el-header>
@@ -32,6 +32,7 @@ export default defineComponent({
   },
   setup() {
     const isCollapse = ref(false)
+    // 如果collapse，.nav-container{left=65px}
     const foldChange = (isFold: boolean) => {
       isCollapse.value = isFold
     }
@@ -44,21 +45,36 @@ export default defineComponent({
 </script>
 
 <style scoped lang="less">
+.main {
+  position: relative;
+}
+
 .el-aside {
   background-color: #001529;
-  height: 100vh;
   color: white;
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
 }
 
-.el-main {
-  background-color: #f0f2f5;
-  color: #333;
+.nav-container {
+  position: absolute;
+  left: 13.25em;
+  top: 0;
+  right: 0;
 
-  .page {
-    background-color: #fff;
-    border-radius: 0.5em;
+  .el-main {
+    background-color: #f0f2f5;
+    color: #333;
+
+    .page {
+      background-color: #fff;
+      border-radius: 0.5em;
+    }
   }
 }
+
 
 .el-header {
   color: #333;

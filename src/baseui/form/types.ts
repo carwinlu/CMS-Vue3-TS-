@@ -1,4 +1,5 @@
 export interface formPropsType {
+  field: string
   type: formtype
   label: string
   placeholder?: any

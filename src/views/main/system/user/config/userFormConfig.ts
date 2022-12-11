@@ -3,16 +3,25 @@ import { IForm } from '@/baseui/form'
 export const formConfig: IForm = {
   formProps: [
     {
+      field: 'name',
       type: 'input',
       label: '用户名',
       placeholder: '请输入用户名'
     },
     {
+      field: 'id',
+      type: 'input',
+      label: 'id',
+      placeholder: '请输入ID'
+    },
+    {
+      field: 'password',
       type: 'password',
       label: '密码',
       placeholder: '请输入密码'
     },
     {
+      field: 'sport',
       type: 'select',
       label: '选择项目',
       searchOption: [
@@ -27,6 +36,7 @@ export const formConfig: IForm = {
       ]
     },
     {
+      field: 'startDate',
       type: 'datepicker',
       label: '选择日期',
       dateOptions: {
@@ -36,5 +46,5 @@ export const formConfig: IForm = {
       }
     }
   ],
-  labelWidth: '120px'
+  labelWidth: '80px'
 }

@@ -9,7 +9,7 @@ import 'normalize.css'
 import './assets/css/index.css'
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 import 'element-plus/theme-chalk/el-loading.css'
-
+import globalRegister from '@/global'
 const app = createApp(App)
 for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
   app.component(key, component)
@@ -21,5 +21,5 @@ app.use(store)
 // 因为动态路由注册如不点击登录页面就不会调用login中dcommit。也不会注册到动态路由
 setupStore()
 app.use(router)
-
+app.use(globalRegister)
 app.mount('#app')

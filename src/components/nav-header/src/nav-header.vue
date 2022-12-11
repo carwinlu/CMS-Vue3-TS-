@@ -1,7 +1,7 @@
 <template>
   <div class="nav-header">
     <!-- isExpand -->
-    <el-icon color="#333" :size="32" class="expand">
+    <el-icon color="#333" :size="24" class="expand">
       <component :is="isCollapse ? 'Expand' : 'Fold'" @click="collapseChange"></component>
     </el-icon>
     <!-- breadcrumb -->
@@ -36,6 +36,8 @@ export default defineComponent({
 .nav-header {
   height: 100%;
   display: flex;
+  align-items: center;
+  text-align: center;
 
   .expand {
     margin-top: 0.25em;
