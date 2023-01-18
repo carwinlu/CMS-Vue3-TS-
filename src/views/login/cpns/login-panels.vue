@@ -11,7 +11,7 @@
             <span>账号登陆</span>
           </span>
         </template>
-        <account ref='accountRef' />
+        <account ref="accountRef" />
       </el-tab-pane>
       <el-tab-pane>
         <template #label>
@@ -55,10 +55,7 @@ export default defineComponent({
     const handleLoginClick = () => {
       // 调用Accout中的验证登录方法
       accountRef.value?.accountLogin(isKeepPassword.value)
-
     }
-
-
 
     return {
       isKeepPassword,

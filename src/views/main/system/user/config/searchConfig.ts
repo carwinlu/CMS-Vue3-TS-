@@ -15,30 +15,26 @@ export const formConfig: IForm = {
       placeholder: '请输入ID'
     },
     {
-      field: 'password',
-      type: 'password',
-      label: '密码',
-      placeholder: '请输入密码'
+      field: 'cellphone',
+      type: 'input',
+      label: '电话号码',
+      placeholder: '请输入电话号码'
     },
     {
-      field: 'sport',
+      field: 'enable',
       type: 'select',
-      label: '选择项目',
+      label: '状态',
+      placeholder: '查询状态',
+      // <el-option label="Zone one" value="shanghai" />
       searchOption: [
-        {
-          label: '篮球',
-          value: 'basketball'
-        },
-        {
-          label: '足球',
-          value: 'football'
-        }
+        { label: '启用', value: 1 },
+        { label: '禁用', value: 0 }
       ]
     },
     {
-      field: 'startDate',
+      field: 'createAt',
       type: 'datepicker',
-      label: '选择日期',
+      label: '创建日期',
       dateOptions: {
         startPlaceholder: '开始时间',
         endPlaceholder: '结束时间',

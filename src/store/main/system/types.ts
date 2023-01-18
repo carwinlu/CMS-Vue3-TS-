@@ -1,4 +1,10 @@
 export interface ISystemState {
   usersList: any
-  usersTotalCount:number
+  usersCount: number
+  departmentList: any
+  departmentCount: number
+  roleList: any
+  roleCount: number
+  goodsList: any
+  goodsCount: number
 }

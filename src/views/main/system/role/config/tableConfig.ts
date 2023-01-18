@@ -8,24 +8,13 @@ export const listProps: ITableProps = {
     },
     {
       prop: 'name',
-      label: '账号',
+      label: '职位',
       width: '110'
     },
     {
-      prop: 'realname',
-      label: '真实姓名',
+      prop: 'intro',
+      label: '职位描述',
       width: '110'
-    },
-    {
-      prop: 'cellphone',
-      label: '电话号码',
-      width: '150'
-    },
-    {
-      prop: 'enable',
-      label: '状态',
-      width: '80',
-      slotName: 'status'
     },
     {
       prop: 'createAt',
@@ -45,5 +34,5 @@ export const listProps: ITableProps = {
   ],
   showIndex: true,
   showSelect: true,
-  tableName: '用户管理'
+  tableName: '角色管理'
 }

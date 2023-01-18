@@ -9,10 +9,21 @@
         <slot name="handle"></slot>
       </div>
     </div>
-    <el-table :data="usersList" border style="width: 100%" stripe>
+    <el-table :data="tableList" border style="width: 100%" stripe>
       <!-- 可选列 -->
-      <el-table-column type="selection" width="50" align="center" v-if="listProps.showSelect" />
-      <el-table-column type="index" label="序号" width="80" align="center" v-if="listProps.showIndex" />
+      <el-table-column
+        type="selection"
+        width="50"
+        align="center"
+        v-if="listProps.showSelect"
+      />
+      <el-table-column
+        type="index"
+        label="序号"
+        width="80"
+        align="center"
+        v-if="listProps.showIndex"
+      />
 
       <!-- 表单本体 -->
       <template v-for="column in listProps.tableSetting" :key="column.prop">
@@ -29,11 +40,10 @@
   </div>
 </template>
 <script lang="ts">
-
 import { defineComponent } from 'vue'
 export default defineComponent({
   props: {
-    usersList: {
+    tableList: {
       type: Array,
       default: () => []
     },

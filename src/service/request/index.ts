@@ -108,16 +108,28 @@ class MYRequest {
     })
   }
   get<T>(config: MYRequestConfig) {
-    return this.request<T>({ ...config, method: 'GET' })
+    return this.request<T>({
+      ...config,
+      method: 'GET'
+    })
   }
   post<T>(config: MYRequestConfig) {
-    return this.request<T>({ ...config, method: 'POST' })
+    return this.request<T>({
+      ...config,
+      method: 'POST'
+    })
   }
   patch<T>(config: MYRequestConfig) {
-    return this.request<T>({ ...config, method: 'PATCH' })
+    return this.request<T>({
+      ...config,
+      method: 'PATCH'
+    })
   }
   delete<T>(config: MYRequestConfig) {
-    return this.request<T>({ ...config, method: 'DELETE' })
+    return this.request<T>({
+      ...config,
+      method: 'DELETE'
+    })
   }
 }
 

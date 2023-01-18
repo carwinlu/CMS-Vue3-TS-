@@ -8,29 +8,24 @@ export const listProps: ITableProps = {
     },
     {
       prop: 'name',
-      label: '账号',
+      label: '名称',
       width: '110'
     },
     {
-      prop: 'realname',
-      label: '真实姓名',
+      prop: 'oldPrice',
+      label: '旧价格',
       width: '110'
     },
     {
-      prop: 'cellphone',
-      label: '电话号码',
+      prop: 'imgUrl',
+      label: '图片',
       width: '150'
     },
     {
-      prop: 'enable',
+      prop: 'status',
       label: '状态',
       width: '80',
       slotName: 'status'
-    },
-    {
-      prop: 'createAt',
-      label: '创建时间',
-      slotName: 'createAt'
     },
     {
       prop: 'updateAt',

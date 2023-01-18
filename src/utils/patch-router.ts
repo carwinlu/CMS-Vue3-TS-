@@ -47,8 +47,12 @@ export function getMenuItemByRoute(
       const findItem: any = getMenuItemByRoute(item.children ?? [], path)
       if (findItem) {
         if (breadcrumbs) {
-          breadcrumbs.push({ name: item.name })
-          breadcrumbs.push({ name: findItem.name })
+          breadcrumbs.push({
+            name: item.name
+          })
+          breadcrumbs.push({
+            name: findItem.name
+          })
         }
         return findItem.id + ''
       }

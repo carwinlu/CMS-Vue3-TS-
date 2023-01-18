@@ -1,36 +1,33 @@
 <template>
   <div class="user">
-    <pageSearch :formConfig="formConfig" />
-    <pageTable :usersList="usersList" />
+    <pageSearch :searchFormConfig="formConfig" @resetBtnClick="handleResetBtnClick"
+      @searchBtnClick="handleSearchBtnClick" />
+    <pageTable pageName="users" :listProps="listProps" ref="pageTableRef" />
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, computed } from 'vue'
+import { defineComponent } from 'vue'
 import { pageSearch, pageTable } from '@/components/page-main'
-import { formConfig } from './config/userFormConfig'
-import { useStore } from '@/store'
+import { listProps } from './config/tableConfig'
+import { formConfig } from './config/searchConfig'
+import { usePageSearch } from '@/hooks/usePageSearch'
 
 export default defineComponent({
   name: 'user',
   components: {
     pageSearch,
-    pageTable,
-
+    pageTable
   },
   setup() {
-    const store = useStore()
-    store.dispatch('system/getUsersList', {
-      url: '/users/list',
-      queryInfo: {
-        "offset": 0,
-        "size": 10
-      }
-    })
-    const usersList = computed(() => store.state.system.usersList)
+    const { pageTableRef, handleResetBtnClick, handleSearchBtnClick } =
+      usePageSearch()
     return {
       formConfig,
-      usersList
+      listProps,
+      pageTableRef,
+      handleResetBtnClick,
+      handleSearchBtnClick
     }
   }
 })
@@ -40,6 +37,4 @@ export default defineComponent({
 .user {
   background-color: #f0f2f5;
 }
-
-
 </style>

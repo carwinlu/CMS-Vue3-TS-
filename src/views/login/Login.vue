@@ -6,7 +6,6 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 
-
 import Panels from './cpns/login-panels.vue'
 export default defineComponent({
   components: {

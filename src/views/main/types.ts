@@ -6,7 +6,8 @@ export interface ITableSetting {
 }
 
 export interface ITableProps {
-  tableSetting:ITableSetting[]
+  tableSetting: ITableSetting[]
   showIndex?: boolean
   showSelect?: boolean
+  tableName?: string
 }

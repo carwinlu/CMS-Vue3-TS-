@@ -3,7 +3,6 @@
   <a @click="backToMain">回到首页</a>
 </template>
 <script lang="ts">
-
 import { defineComponent } from 'vue'
 import router from '@/router'
 export default defineComponent({
@@ -18,6 +17,4 @@ export default defineComponent({
 })
 </script>
 
-<style lang="less">
-
-</style>
+<style lang="less"></style>

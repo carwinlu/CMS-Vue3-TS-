@@ -8,7 +8,6 @@
   </div>
 </template>
 <script lang="ts">
-
 import { defineComponent, computed } from 'vue'
 import { useStore } from '@/store'
 import { useRoute } from 'vue-router'

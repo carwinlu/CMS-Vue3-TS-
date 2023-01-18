@@ -1,31 +1,49 @@
 <template>
   <div class="my-form">
-    <el-form :style="styleCustom" :label-width="labelWidth" label-position="left" :inline=inline>
+    <div class="search-title">
+      <slot name="tittle"></slot>
+    </div>
+    <el-form :style="styleCustom" :label-width="labelWidth" :inline="inline">
       <template v-for="item of formProps" :key="item.index">
         <el-form-item :label="item.label">
           <!-- type :input || password -->
-          <template v-if="(item.type === 'input' || item.type === 'password')">
-            <el-input :placeholder="item.placeholder" :show-password="item.type === 'password'"
-              v-model="formData[`${item.field}`]" />
+          <template v-if="item.type === 'input' || item.type === 'password'">
+            <el-input
+              :placeholder="item.placeholder"
+              :show-password="item.type === 'password'"
+              v-model="formData[`${item.field}`]"
+            />
           </template>
           <!-- type :select -->
           <template v-else-if="item.type === 'select'">
-            <el-select :placeholder="item.placeholder" v-model="formData[`${item.field}`]">
-              <el-option v-for="option of item.searchOption" :key="option.value" :label="option.label"
-                :value="option.value" />
+            <el-select
+              :placeholder="item.placeholder"
+              v-model="formData[`${item.field}`]"
+            >
+              <el-option
+                v-for="option of item.searchOption"
+                :key="option.value"
+                :label="option.label"
+                :value="option.value"
+              />
             </el-select>
           </template>
           <!-- type :datepicker -->
           <template v-else-if="item.type === 'datepicker'">
-            <el-date-picker v-bind="item.dateOptions" v-model="formData[`${item.field}`]" />
+            <el-date-picker
+              v-bind="item.dateOptions"
+              v-model="formData[`${item.field}`]"
+            />
           </template>
         </el-form-item>
       </template>
     </el-form>
+    <div class="search-button">
+      <slot name="searchButton"></slot>
+    </div>
   </div>
 </template>
 <script lang="ts">
-
 import { defineComponent, PropType, ref, watch } from 'vue'
 import { formPropsType } from '../types'
 export default defineComponent({
@@ -53,24 +71,29 @@ export default defineComponent({
       type: Object,
       default: () => ({
         inline: true,
-        "padding": '1em'
+        padding: '1em'
       })
     }
   },
   emits: ['update:modelValue'],
   setup(props, { emit }) {
-    const formData = ref({ ...props.modelValue })
-    watch(formData, (newValue) => {
-      console.log("emit change");
-
-      emit('update:modelValue', newValue)
-    }, { deep: true })
+    const formData = ref({
+      ...props.modelValue
+    })
+    watch(
+      formData,
+      (newValue) => {
+        // console.log("emit change");
+        emit('update:modelValue', newValue)
+      },
+      {
+        deep: true
+      }
+    )
     return {
       formData
     }
   }
-
-
 })
 </script>
 
@@ -78,9 +101,24 @@ export default defineComponent({
 .my-form {
   text-align: center;
 
+  box-sizing: border-box;
+
   .el-form {
     justify-content: space-between;
     padding-bottom: 0 !important;
+  }
+}
+
+.my-form {
+  .search-title {
+    padding-bottom: 0.5rem;
+    margin: 0;
+    display: flex;
+  }
+
+  .search-button {
+    text-align: right;
+    padding: 0 1.5em 1em 0;
   }
 }
 </style>

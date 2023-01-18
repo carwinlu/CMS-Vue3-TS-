@@ -14,32 +14,30 @@
 import { ElForm } from 'element-plus'
 import { defineComponent, reactive, ref } from 'vue'
 import { rules } from '../config/account-config'
-import localCache from "@/utils/cache"
+import localCache from '@/utils/cache'
 import store from '@/store'
 
 export default defineComponent({
   setup() {
     const account = reactive({
-      name: localCache.getCache("name") || "",
-      password: localCache.getCache("password") || ""
+      name: localCache.getCache('name') || '',
+      password: localCache.getCache('password') || ''
     })
     // 实现登录逻辑
     const formRef = ref<InstanceType<typeof ElForm>>()
     const accountLogin = (isKeepPassword: boolean) => {
       // 通过正则，登录
-      formRef.value?.validate(valid => {
+      formRef.value?.validate((valid) => {
         if (valid) {
           // 记住密码
           if (isKeepPassword) {
-            localCache.setCache("name", account.name)
-            localCache.setCache("password", account.password)
+            localCache.setCache('name', account.name)
+            localCache.setCache('password', account.password)
           }
           // 网络请求
           store.dispatch('loginModule/accountLogin', account)
         }
       })
-
-
     }
 
     return {
@@ -52,6 +50,4 @@ export default defineComponent({
 })
 </script>
 
-<style lang="less">
-
-</style>
+<style lang="less"></style>

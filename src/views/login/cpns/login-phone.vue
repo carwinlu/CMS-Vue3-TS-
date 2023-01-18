@@ -11,17 +11,16 @@
         </div>
       </el-form-item>
     </el-form>
-
   </div>
 </template>
 <script lang="ts">
 import { defineComponent, reactive } from 'vue'
-import { rules } from "../config/account-config"
+import { rules } from '../config/account-config'
 export default defineComponent({
   setup() {
     const phoneAccount = reactive({
-      phone: "",
-      variedNum: ""
+      phone: '',
+      variedNum: ''
     })
     return {
       phoneAccount,

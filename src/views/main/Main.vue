@@ -6,7 +6,12 @@
         <navMenu :collapse="isCollapse" />
       </el-aside>
       <!-- 主容器 -->
-      <el-container class="nav-container" :style="{ 'left': isCollapse ? '4em' : '13.25em' }">
+      <el-container
+        class="nav-container"
+        :style="{
+          left: isCollapse ? '4em' : '13.25em'
+        }"
+      >
         <el-header class="nav-header">
           <navHeader @foldChange="foldChange" />
         </el-header>
@@ -20,10 +25,9 @@
   </div>
 </template>
 <script lang="ts">
-
 import { defineComponent, ref } from 'vue'
-import navMenu from '@/components/nav-main';
-import navHeader from '@/components/nav-header';
+import navMenu from '@/components/nav-main'
+import navHeader from '@/components/nav-header'
 
 export default defineComponent({
   components: {
@@ -63,6 +67,7 @@ export default defineComponent({
   left: 13.25em;
   top: 0;
   right: 0;
+  background-color: #fff;
 
   .el-main {
     background-color: #f0f2f5;
@@ -74,7 +79,6 @@ export default defineComponent({
     }
   }
 }
-
 
 .el-header {
   color: #333;

@@ -2,17 +2,22 @@
   <div class="nav-menu">
     <!-- title -->
     <div class="title">
-      <img src="~@/assets/img/logo.svg" alt="icon">
+      <img src="~@/assets/img/logo.svg" alt="icon" />
       <h5 v-show="!collapse">管理系统</h5>
     </div>
     <!-- 导航部分 -->
-    <el-menu active-text-color="#ffd04d" background-color="#001529" text-color="#b7bdc3" class="el-menu-vertical-demo"
-      :collapse="collapse" :default-active="activeItem">
-
+    <el-menu
+      active-text-color="#ffd04d"
+      background-color="#001529"
+      text-color="#b7bdc3"
+      class="el-menu-vertical-demo"
+      :collapse="collapse"
+      :default-active="activeItem"
+    >
       <!-- 遍历menu-item -->
       <template v-for="item in menuList" :key="item.id">
         <!-- 一级菜单 -->
-        <el-sub-menu :index="item.id + ''" v-if="(item.type === 1)">
+        <el-sub-menu :index="item.id + ''" v-if="item.type === 1">
           <!-- 因为他的icon=el-icon-monitor，但是只需要是monitor -->
           <template #title>
             <el-icon size="20px">
@@ -21,14 +26,14 @@
             <span>{{ item.name }}</span>
           </template>
           <!-- 二级菜单 -->
-          <template v-for="child in item.children" :key="child.id+''">
+          <template v-for="child in item.children" :key="child.id + ''">
             <el-menu-item :index="child.id + ''" @click="handleRoute(child)">
               <span>{{ child.name }}</span>
             </el-menu-item>
           </template>
         </el-sub-menu>
         <!-- 假如一级菜单内无其他item -->
-        <el-menu-item v-else-if="(item.type === 2)">
+        <el-menu-item v-else-if="item.type === 2">
           <el-icon size="20px">
             <component :is="item.icon" />
           </el-icon>
@@ -39,8 +44,7 @@
   </div>
 </template>
 
-<script lang ="ts">
-
+<script lang="ts">
 import { defineComponent, computed, ref } from 'vue'
 import { useStore } from '@/store'
 import { Monitor } from '@element-plus/icons-vue'
@@ -55,8 +59,8 @@ export default defineComponent({
     }
   },
   setup() {
-    const store = useStore();
-    const menuList = computed(() => store.state.loginModule.userMenu);
+    const store = useStore()
+    const menuList = computed(() => store.state.loginModule.userMenu)
     const router = useRouter()
 
     // handleItemClick
@@ -75,9 +79,11 @@ export default defineComponent({
       menuList,
       activeItem,
       handleRoute
-    };
+    }
   },
-  components: { Monitor }
+  components: {
+    Monitor
+  }
 })
 </script>
 
@@ -87,7 +93,6 @@ export default defineComponent({
   margin-top: 1em;
   height: 1.5em;
   align-items: center;
-
 
   img {
     margin-left: 1.25em;
