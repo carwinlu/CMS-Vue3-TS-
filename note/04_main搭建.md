@@ -209,6 +209,8 @@ menuName = getParentMenu(menu, currentPath) return menuName })
 
 ## pagination
 
+## 特殊定制插槽：如图片
+
 #### remain question：
 
 - 怎么把我们写 el-form 的属性提醒作为类型提出来呢？这样就不用写一堆 lineWidth 这种了

@@ -12,13 +12,13 @@ const system: Module<ISystemState, IRootState> = {
   namespaced: true,
   state() {
     return {
-      usersList: '',
+      usersList: [],
       usersCount: 0,
-      roleList: '',
+      roleList: [],
       roleCount: 0,
-      departmentList: '',
+      departmentList: [],
       departmentCount: 0,
-      goodsList: '',
+      goodsList: [],
       goodsCount: 0
     }
   },
@@ -42,10 +42,10 @@ const system: Module<ISystemState, IRootState> = {
       state.departmentCount = payload
     },
     setGoodsList(state, payload) {
-      state.departmentList = payload
+      state.goodsList = payload
     },
     setGoodsCount(state, payload) {
-      state.departmentCount = payload
+      state.goodsCount = payload
     }
   },
   // 使用getters去获取数据

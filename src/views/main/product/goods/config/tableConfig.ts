@@ -1,44 +1,26 @@
 import type { ITableProps } from '@/views/main/types'
 export const listProps: ITableProps = {
   tableSetting: [
+    { prop: 'name', label: '商品名称', width: '120' },
+    { prop: 'oldPrice', label: '原价格', width: '80', slotName: 'oldPrice' },
+    { prop: 'newPrice', label: '现价格', width: '80' },
+    { prop: 'imgUrl', label: '商品图片', width: '100', slotName: 'image' },
+    { prop: 'status', label: '状态', width: '100', slotName: 'status' },
     {
-      prop: 'id',
-      label: 'ID',
-      width: '110'
-    },
-    {
-      prop: 'name',
-      label: '名称',
-      width: '110'
-    },
-    {
-      prop: 'oldPrice',
-      label: '旧价格',
-      width: '110'
-    },
-    {
-      prop: 'imgUrl',
-      label: '图片',
-      width: '150'
-    },
-    {
-      prop: 'status',
-      label: '状态',
-      width: '80',
-      slotName: 'status'
+      prop: 'createAt',
+      label: '创建时间',
+      width: '250',
+      slotName: 'createAt'
     },
     {
       prop: 'updateAt',
       label: '更新时间',
+      width: '250',
       slotName: 'updateAt'
     },
-    {
-      label: '数据处理',
-      slotName: 'datahandle',
-      width: '140'
-    }
+    { label: '操作', width: '120', slotName: 'handler' }
   ],
   showIndex: true,
   showSelect: true,
-  tableName: '用户管理'
+  tableName: '商品信息'
 }
