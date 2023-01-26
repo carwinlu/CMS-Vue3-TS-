@@ -19,7 +19,9 @@ const system: Module<ISystemState, IRootState> = {
       departmentList: [],
       departmentCount: 0,
       goodsList: [],
-      goodsCount: 0
+      goodsCount: 0,
+      menuList: [],
+      menuCount:0
     }
   },
   mutations: {
@@ -45,6 +47,12 @@ const system: Module<ISystemState, IRootState> = {
       state.goodsList = payload
     },
     setGoodsCount(state, payload) {
+      state.goodsCount = payload
+    },
+    setMenuList(state, payload) {
+      state.menuList = payload
+    },
+    setMenuCount(state, payload) {
       state.goodsCount = payload
     }
   },

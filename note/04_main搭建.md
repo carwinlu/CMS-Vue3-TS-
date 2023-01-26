@@ -140,7 +140,7 @@
         _uesRoute() 和 useRouter() 的差别_
 
         - route 是一个路由对象，每个路由都有对应的路由对象，是一个局部的对象；可用于获取对应的 name、path、params、query 等
-        - router 是 VueRouter 的一个全局对象，通过`Vue.use(VueRouter)和VueRouter构造函数`得到一个*router 的实例对象*，他包含了所有的路由包含了许多关键的对象和属性。
+        - router 是 VueRouter 的一个全局对象，通过`Vue.use(VueRouter)和VueRouter构造函数`得到一个 *router 的实例对象*，他包含了所有的路由包含了许多关键的对象和属性。
 
      2. 匹配 menu
      3. 如果 path 为‘/main’，就映射到第一个 item 的路径上
@@ -207,9 +207,57 @@ menuName = getParentMenu(menu, currentPath) return menuName })
 
 问题：配置 elplus 时，被要求有 cnzh 的 ts 声明文件。。。
 
-## pagination
+### pagination 
 
-## 特殊定制插槽：如图片
+### 特殊定制插槽：如图片;跨组件插槽传递
+
+* 思路一：直接用slotname，将插槽写在公共组件page-table中，slotname='img'；
+  * 缺点：page-table冗杂
+* 思路二：除开page-table中的公共插槽名称，其余插槽均为自定义插槽；可以各自在vue文件中传递配置；
+  * 传递路径：goods.vue -> page-table.vue -> main-table.vue
+  * 想法：插槽套接
+     ```js
+     //good.vue
+     <template #image="scope">
+       <!-- 插槽内容 -->
+       <el-image style="width: 80px; height: 80px" :src="scope.row.imgUrl" fit="contain" />
+    </template>
+
+    //page-table.vue
+      <template #image="scope">
+        <!-- 套接一个插槽，并且把row传给上一层 -->
+        <slot name="image" :row="scope.row"></slot>
+      </template>
+
+      //main-table.vue
+      //正常接收插槽
+     ```
+
+   * 将其拓展为更动态的；即插槽名称不固定为image
+    ```js
+       // 判断是否为动态插槽
+    const regularSlot = ['status', 'createAt', 'updateAt', 'datahandle']
+    const otherSlot = []
+    for (const item of props.listProps.tableSetting) {
+      if (!regularSlot.includes(item.slotName) && item.slotName) {
+        otherSlot.push(item)
+      }
+    }
+    ```
+
+### 实现展开行表格
+当 row 中包含 children 字段时，被视为树形数据。  渲染嵌套数据需要 prop 的 row-key。
+
+
+## doing 权限管理判断某些按钮是否显示
+根据返回菜单中是否有某个系统权限，判断是否有某些按钮；
+* 集合所有permission
+* usePermission(pageName,'create || delete || update || query')；使用usePermission方法判断；
+
+
+
+
+
 
 #### remain question：
 
@@ -228,3 +276,13 @@ menuName = getParentMenu(menu, currentPath) return menuName })
           </template>
         </el-table-column>
   ```
+
+- 表格图片预览遮罩关系错误？
+  
+<img src='./img/problem01.png'/>
+
+* 在el-image上添加属性
+```:preview-teleported=true ；```
+image-viewer 是否插入至 body 元素上。 嵌套的父元素属性会发生修改时应该将此属性设置为 true；默认为 false
+
+

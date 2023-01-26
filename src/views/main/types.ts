@@ -10,4 +10,5 @@ export interface ITableProps {
   showIndex?: boolean
   showSelect?: boolean
   tableName?: string
+  isPage?: boolean
 }

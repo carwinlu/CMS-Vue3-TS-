@@ -5,7 +5,6 @@
       <template v-if="listProps.tableName" #title>{{
         listProps.tableName
       }}</template>
-      <!-- <template #handle>数据处理</template> -->
 
       <!-- 列中数据插槽 -->
       <template #status="scope">
@@ -20,6 +19,12 @@
       <template #updateAt="scope">
         <span>{{ $filters.timeFormat(scope.row.updateAt) }}</span>
       </template>
+
+      <!-- 动态插槽 -->
+      <template v-for="item in otherSlot" :key="item.prop" #[item.slotName]="scope">
+        <slot :name="item.slotName" :row="scope.row"></slot>
+      </template>
+
       <!-- 数据处理列 -->
       <template #datahandle>
         <el-button link type="primary" size="small"><el-icon>
@@ -30,13 +35,14 @@
             <Delete />
           </el-icon>删除</el-button>
       </template>
+      <!-- 分页器 -->
+      <template #pagination v-if="tableCount">
+        <el-pagination v-model:current-page="currentPage" v-model:page-size="pageSize" :page-sizes="[5, 10, 20, 30, 40]"
+          layout="total, sizes, prev, pager, next, jumper" :total="tableCount" @size-change="handleSizeChange"
+          @current-change="handelCurrentChange" />
+      </template>
     </mainTable>
-    <!-- 分页器 -->
-    <div class="pagination">
-      <el-pagination v-model:current-page="currentPage" v-model:page-size="pageSize" :page-sizes="[5, 10, 20, 30, 40]"
-        layout="total, sizes, prev, pager, next, jumper" :total="tableCount" @size-change="handleSizeChange"
-        @current-change="handelCurrentChange" />
-    </div>
+
   </div>
 </template>
 <script lang="ts">
@@ -46,6 +52,7 @@ import mainTable from '@/baseui/table'
 import { Delete } from '@element-plus/icons-vue'
 
 import { useStore } from '@/store'
+
 export default defineComponent({
   components: {
     mainTable,
@@ -94,11 +101,23 @@ export default defineComponent({
     const tableCount = computed(() =>
       store.getters[`system/pageCountData`](props.pageName)
     )
+
+    // 判断是否为动态插槽
+    const regularSlot = ['status', 'createAt', 'updateAt', 'datahandle']
+    const otherSlot = []
+    for (const item of props.listProps.tableSetting) {
+      if (!regularSlot.includes(item.slotName) && item.slotName) {
+        otherSlot.push(item)
+      }
+    }
+
+
     return {
       tableList,
       tableCount,
       currentPage,
       pageSize,
+      otherSlot,
       getPageData,
       handleSizeChange,
       handelCurrentChange
@@ -110,8 +129,8 @@ export default defineComponent({
 <style lang="less">
 .page-table {
   padding: 1em;
-  padding-bottom: 3em;
   margin-top: 1em;
+  padding-bottom: 3em;
   background-color: #fff;
   border-radius: 00.5em;
 

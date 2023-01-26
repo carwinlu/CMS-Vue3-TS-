@@ -45,5 +45,6 @@ export const listProps: ITableProps = {
   ],
   showIndex: true,
   showSelect: true,
-  tableName: '用户管理'
+  tableName: '用户管理',
+  isPage: true
 }
