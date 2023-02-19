@@ -8,3 +8,9 @@ export function usersListRequest(url: string, queryInfo: any) {
     data: queryInfo
   })
 }
+
+export function delDateRequest(url: string) {
+  return myRequest.delete<IRequestResult>({
+    url
+  })
+}

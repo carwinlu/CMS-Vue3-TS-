@@ -1,7 +1,7 @@
 import { IRootState } from '@/store/type'
 import { Module } from 'vuex'
 import type { ISystemState } from './types'
-import { usersListRequest } from '@/service/main/system'
+import { usersListRequest, delDateRequest } from '@/service/main/system'
 
 import { firstLetterCapital } from '@/utils/wordFormat'
 
@@ -21,7 +21,7 @@ const system: Module<ISystemState, IRootState> = {
       goodsList: [],
       goodsCount: 0,
       menuList: [],
-      menuCount:0
+      menuCount: 0
     }
   },
   mutations: {
@@ -74,6 +74,7 @@ const system: Module<ISystemState, IRootState> = {
   actions: {
     // 请求用户列表，传入url & queryInfo
     async getAllList({ commit }, payload: any) {
+      // payload:{listName,id}
       const url = `/${payload.listName}/list`
       const listResult = await usersListRequest(url, payload.queryInfo)
       const { list, totalCount } = listResult.data
@@ -81,8 +82,25 @@ const system: Module<ISystemState, IRootState> = {
       // 首字母大写的方法
       commit(`set${firstLetterCapital(payload.listName)}List`, list)
       commit(`set${firstLetterCapital(payload.listName)}Count`, totalCount)
-    }
+    },
     // 刷新重新获取数据
+    // 删除某数据的请求方法；
+    // url：/${pagename}/id
+    async delAnyDate({ dispatch }, payload: any) {
+      // payload:{pageName,id}
+      const url = `/${payload.pageName}/${payload.id}`
+      await delDateRequest(url)
+
+      // 重新请求
+      dispatch('getAllList', {
+        listName: payload.pageName,
+        // 也可以选择获取原本的queryInfo
+        queryInfo: {
+          offset: 0,
+          size: 100
+        }
+      })
+    }
   }
 }
 

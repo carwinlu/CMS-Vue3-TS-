@@ -51,8 +51,12 @@ export default defineComponent({
 
 <style lang="less" scoped>
 .header {
+  width: 100%;
   display: flex;
   flex: 1;
   padding-bottom: 0.5em;
+  justify-content: space-between;
+
+
 }
 </style>

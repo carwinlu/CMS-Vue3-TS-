@@ -8,6 +8,7 @@ export interface formPropsType {
   searchOption?: any[]
   // datepicker的options
   dateOptions?: any
+  isHiden?: boolean
 }
 
 type formtype = 'input' | 'password' | 'datepicker' | 'select'

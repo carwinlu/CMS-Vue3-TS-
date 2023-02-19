@@ -3,10 +3,7 @@
     <div class="header-left">
       <!-- isExpand -->
       <el-icon color="#333" :size="24" class="expand">
-        <component
-          :is="isCollapse ? 'Expand' : 'Fold'"
-          @click="collapseChange"
-        ></component>
+        <component :is="isCollapse ? 'Expand' : 'Fold'" @click="collapseChange"></component>
       </el-icon>
       <!-- breadcrumb 路径导航-->
       <breadcrumbs />
@@ -18,16 +15,12 @@
       </el-icon>
 
       <el-dropdown>
-        <el-avatar
-          src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"
-          :size="30"
-          class="userCenter"
-        />
+        <el-avatar src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png" :size="30"
+          class="userCenter" />
         <!-- 下拉菜单 -->
         <template #dropdown>
           <el-dropdown-menu>
-            <el-dropdown-item>用户中心</el-dropdown-item>
-            <el-dropdown-item>账号信息</el-dropdown-item>
+            <el-dropdown-item>{{ userName }}</el-dropdown-item>
             <el-dropdown-item>退出登录</el-dropdown-item>
           </el-dropdown-menu>
         </template>
@@ -36,8 +29,9 @@
   </div>
 </template>
 <script lang="ts">
-import { defineComponent, ref } from 'vue'
+import { defineComponent, ref, computed } from 'vue'
 import breadcrumbs from '@/baseui/breadcrumbs'
+import { useStore } from '@/store'
 
 export default defineComponent({
   components: {
@@ -50,8 +44,13 @@ export default defineComponent({
       isCollapse.value = !isCollapse.value
       emit('foldChange', isCollapse.value)
     }
+
+    const store = useStore()
+    const userInfo = computed(() => store.state.loginModule.userInfo)
+    const userName = userInfo.value.data.name
     return {
       isCollapse,
+      userName,
       collapseChange
     }
   }

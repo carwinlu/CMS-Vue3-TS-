@@ -12,7 +12,7 @@ import type { IAccount } from '@/service/login/types'
 import localCache from '@/utils/cache'
 
 import router from '@/router'
-import { menuPatchRouter } from '../../utils/patch-router'
+import { menuPatchRouter, menuPatchPermission } from '../../utils/patch-router'
 
 // Module中要传入两个泛型<该模块state类型，根模块state类型>
 const loginModule: Module<ILoginState, IRootState> = {
@@ -21,7 +21,8 @@ const loginModule: Module<ILoginState, IRootState> = {
     return {
       token: '',
       userInfo: '',
-      userMenu: []
+      userMenu: [],
+      menuPermissions: []
     }
   },
 
@@ -47,6 +48,9 @@ const loginModule: Module<ILoginState, IRootState> = {
         router.addRoute('main', route)
       })
       // console.log(routes)
+      // 获取permissions
+      const permission = menuPatchPermission(menu)
+      state.menuPermissions = permission
     }
   },
   // 异步状态变更

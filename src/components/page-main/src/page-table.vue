@@ -5,6 +5,9 @@
       <template v-if="listProps.tableName" #title>{{
         listProps.tableName
       }}</template>
+      <template v-if="isCreate" #handle>
+        <el-button type="primary" @click="handleCreateClick">新建数据</el-button>
+      </template>
 
       <!-- 列中数据插槽 -->
       <template #status="scope">
@@ -26,12 +29,15 @@
       </template>
 
       <!-- 数据处理列 -->
-      <template #datahandle>
-        <el-button link type="primary" size="small"><el-icon>
+      <template #datahandle="scope">
+        <el-button link type="primary" size="small" v-if="isUpdate" @click="handleDataEdit(scope.row)">
+          <el-icon>
             <Edit />
-          </el-icon>编辑</el-button>
+          </el-icon>
+          编辑
+        </el-button>
 
-        <el-button link type="primary" size="small"><el-icon>
+        <el-button link type="primary" size="small" v-if="isDelete" @click='handelDel(scope.row)'><el-icon>
             <Delete />
           </el-icon>删除</el-button>
       </template>
@@ -53,6 +59,8 @@ import { Delete } from '@element-plus/icons-vue'
 
 import { useStore } from '@/store'
 
+import { usePermissionMatch } from '@/hooks/usePermissionMatch'
+
 export default defineComponent({
   components: {
     mainTable,
@@ -68,22 +76,23 @@ export default defineComponent({
       required: true
     }
   },
-  setup(props) {
+  emits: ["CreateBtnClick", "EditBtnClick"],
+  setup(props, { emit }) {
+
+
+    // 权限判断
+    const isCreate = usePermissionMatch(props.pageName, 'create')
+    const isUpdate = usePermissionMatch(props.pageName, 'update')
+    const isDelete = usePermissionMatch(props.pageName, 'delete')
+    const isQuery = usePermissionMatch(props.pageName, 'query')
+    // 分页器数据
     const currentPage = ref(1)
     const pageSize = ref(10)
-    const handleSizeChange = (e: any) => {
-      pageSize.value = e;
-    }
-    const handelCurrentChange = (e: any) => { currentPage.value = e }
-    watch(currentPage, () => {
-      getPageData()
-    })
-    watch(pageSize, () => {
-      getPageData()
-    })
 
+    // 网络请求
     const store = useStore()
     const getPageData = (queryInfo?: any) => {
+      if (!isQuery) return
       store.dispatch('system/getAllList', {
         listName: props.pageName,
         queryInfo: {
@@ -95,12 +104,25 @@ export default defineComponent({
     }
     getPageData()
 
+    // 获取数据
     const tableList = computed(() =>
       store.getters[`system/pageListData`](props.pageName)
     )
     const tableCount = computed(() =>
       store.getters[`system/pageCountData`](props.pageName)
     )
+
+    // 分页器计算、监听
+    const handleSizeChange = (e: any) => {
+      pageSize.value = e;
+    }
+    const handelCurrentChange = (e: any) => { currentPage.value = e }
+    watch(currentPage, () => {
+      getPageData()
+    })
+    watch(pageSize, () => {
+      getPageData()
+    })
 
     // 判断是否为动态插槽
     const regularSlot = ['status', 'createAt', 'updateAt', 'datahandle']
@@ -110,6 +132,23 @@ export default defineComponent({
         otherSlot.push(item)
       }
     }
+    // 数据删除监听
+    const handelDel = (item: any) => {
+      // 调用删除的网络请求
+      store.dispatch('system/delAnyDate', {
+        id: item.id,
+        pageName: props.pageName
+      })
+    }
+
+    // 新建按钮点击
+    const handleCreateClick = () => {
+      emit('CreateBtnClick')
+    }
+    // 编辑按钮点击
+    const handleDataEdit = (item: any) => {
+      emit("EditBtnClick", item)
+    }
 
 
     return {
@@ -118,9 +157,15 @@ export default defineComponent({
       currentPage,
       pageSize,
       otherSlot,
+      isCreate,
+      isUpdate,
+      isDelete,
       getPageData,
       handleSizeChange,
-      handelCurrentChange
+      handelCurrentChange,
+      handelDel,
+      handleCreateClick,
+      handleDataEdit
     }
   }
 })

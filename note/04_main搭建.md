@@ -140,7 +140,7 @@
         _uesRoute() 和 useRouter() 的差别_
 
         - route 是一个路由对象，每个路由都有对应的路由对象，是一个局部的对象；可用于获取对应的 name、path、params、query 等
-        - router 是 VueRouter 的一个全局对象，通过`Vue.use(VueRouter)和VueRouter构造函数`得到一个 *router 的实例对象*，他包含了所有的路由包含了许多关键的对象和属性。
+        - router 是 VueRouter 的一个全局对象，通过`Vue.use(VueRouter)和VueRouter构造函数`得到一个 _router 的实例对象_，他包含了所有的路由包含了许多关键的对象和属性。
 
      2. 匹配 menu
      3. 如果 path 为‘/main’，就映射到第一个 item 的路径上
@@ -249,13 +249,31 @@ menuName = getParentMenu(menu, currentPath) return menuName })
 当 row 中包含 children 字段时，被视为树形数据。  渲染嵌套数据需要 prop 的 row-key。
 
 
-## doing 权限管理判断某些按钮是否显示
+## 权限管理判断某些按钮是否显示
 根据返回菜单中是否有某个系统权限，判断是否有某些按钮；
 * 集合所有permission
 * usePermission(pageName,'create || delete || update || query')；使用usePermission方法判断；
 
+# 增删改功能实现
 
-
+1. 删除功能
+   1. 拼接url；
+   2. 定义删除的网络请求；并调用
+   3. 重新加载页面；发送页面请求；
+      1. 细节：queryInfo获取原本的
+      2. 细节：确认弹窗
+   
+2. 新建&编辑数据
+   1. 新建数据的表单页面
+   2. handle新建数据按钮及编辑按钮点击
+   3. 编辑数据表单页面的数据回显,click的item => formData => modelValue
+   4. 某些input需要隐藏（不用）：isHidden => 修改isHidden控制表单是否显示密码input；  不在usePageDialog中直接改isHidden，而是定义两个回调函数控制；更灵活
+      1. 即时通讯技术（socket）：服务器主动推送已更新数据
+      2. 短时通讯：发送HTTP请求，服务器返回数据
+   5. 角色数据请求：
+      1. 结果放在rootState上，避免因权限问题无法获取；
+      2. 配置到user的dialog配置选项上
+3. 
 
 
 

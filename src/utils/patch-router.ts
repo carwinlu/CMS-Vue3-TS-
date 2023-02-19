@@ -1,4 +1,4 @@
-// menuPatchRouter
+// menuPatchRouter; menuPatchPermission 等menu 的匹配方法
 import type { RouteRecordRaw } from 'vue-router'
 import type { Ibreadcrumbs } from './type'
 
@@ -63,12 +63,29 @@ export function getMenuItemByRoute(
   }
 }
 
-// 面包屑
+// 面包屑；获取父级菜单
 
 export function getParentMenu(menu: any, path: string) {
   const breadcrumbs: Ibreadcrumbs[] = []
   getMenuItemByRoute(menu, path, breadcrumbs)
   return breadcrumbs
+}
+
+// menuPatchPermission:用于获取menu中指明的所有permission
+export function menuPatchPermission(menuList: any[]) {
+  const permissions: string[] = []
+  const permissionMap = (menu: any[]) => {
+    for (const item of menu) {
+      if (item.permission) {
+        permissions.push(item.permission)
+      } else {
+        if (!item.children) return
+        permissionMap(item.children)
+      }
+    }
+  }
+  permissionMap(menuList)
+  return permissions
 }
 
 export { firstMenuItem }
