@@ -21,7 +21,7 @@
         <template #dropdown>
           <el-dropdown-menu>
             <el-dropdown-item>{{ userName }}</el-dropdown-item>
-            <el-dropdown-item>退出登录</el-dropdown-item>
+            <el-dropdown-item @click="handleEsc">退出登录</el-dropdown-item>
           </el-dropdown-menu>
         </template>
       </el-dropdown>
@@ -29,9 +29,10 @@
   </div>
 </template>
 <script lang="ts">
-import { defineComponent, ref, computed } from 'vue'
+import { defineComponent, ref } from 'vue'
 import breadcrumbs from '@/baseui/breadcrumbs'
-import { useStore } from '@/store'
+import localCache from '@/utils/cache'
+import { useRouter } from 'vue-router'
 
 export default defineComponent({
   components: {
@@ -45,13 +46,22 @@ export default defineComponent({
       emit('foldChange', isCollapse.value)
     }
 
-    const store = useStore()
-    const userInfo = computed(() => store.state.loginModule.userInfo)
-    const userName = userInfo.value.data.name
+    const userName = "coderwhy"
+    // const store = useStore()
+    // const userInfo = store.state.loginModule.userInfo
+    // userName.value = userInfo.data.name
+    // 退出登录
+    const router = useRouter()
+    const handleEsc = () => {
+      // 退出登录步骤：删掉token，然后跳转到/main
+      localCache.delCache('token')
+      router.push('/main')
+    }
     return {
       isCollapse,
       userName,
-      collapseChange
+      collapseChange,
+      handleEsc
     }
   }
 })

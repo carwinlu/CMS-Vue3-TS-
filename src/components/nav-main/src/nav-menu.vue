@@ -6,14 +6,8 @@
       <h5 v-show="!collapse">管理系统</h5>
     </div>
     <!-- 导航部分 -->
-    <el-menu
-      active-text-color="#ffd04d"
-      background-color="#001529"
-      text-color="#b7bdc3"
-      class="el-menu-vertical-demo"
-      :collapse="collapse"
-      :default-active="activeItem"
-    >
+    <el-menu active-text-color="#ffd04d" background-color="#001529" text-color="#b7bdc3" class="el-menu-vertical-demo"
+      :collapse="collapse" :default-active="activeItem">
       <!-- 遍历menu-item -->
       <template v-for="item in menuList" :key="item.id">
         <!-- 一级菜单 -->

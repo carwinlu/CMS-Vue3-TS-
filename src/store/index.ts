@@ -2,6 +2,7 @@
 import { createStore, Store, useStore as useVuexStore } from 'vuex'
 import loginModule from './login/login'
 import system from './main/system'
+import dashboard from './main/analysis'
 import { IRootState, IStoreType } from './type'
 import { usersListRequest } from '@/service/main/system/index'
 
@@ -9,10 +10,18 @@ const store = createStore<IRootState>({
   state() {
     return {
       allDepartment: [],
-      allRole: []
+      allRole: [],
+      coder: 'coderwhy'
     }
   },
-  getters: {},
+  getters: {
+    getAllDepartment(state) {
+      return state.allDepartment
+    },
+    getAllRole(state) {
+      return state.allRole
+    }
+  },
   mutations: {
     setAllDepartment(state, payload) {
       state.allDepartment = payload
@@ -42,7 +51,8 @@ const store = createStore<IRootState>({
   },
   modules: {
     loginModule,
-    system
+    system,
+    dashboard
   }
 })
 export function useStore(): Store<IStoreType> {

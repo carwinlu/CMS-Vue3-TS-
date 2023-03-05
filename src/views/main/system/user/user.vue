@@ -4,12 +4,12 @@
       @searchBtnClick="handleSearchBtnClick" />
     <pageTable pageName="users" :listProps="listProps" ref="pageTableRef" @create-btn-click="handleCreateClick"
       @edit-btn-click="handleEditClick" />
-    <pageDialog :dialogConfig="dialogConfig" ref="dialogRef" :defaultInfo="defaultInfo" />
+    <pageDialog :dialogConfig="dialogConfigRef" ref="dialogRef" :defaultInfo="defaultInfo" :pageTittle="pageTittle" />
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, computed } from 'vue'
+import { defineComponent, computed, ref } from 'vue'
 import { pageSearch, pageTable, pageDialog } from '@/components/page-main'
 import { listProps } from './config/tableConfig'
 import { formConfig } from './config/searchConfig'
@@ -29,38 +29,52 @@ export default defineComponent({
     // 搜索页面点击监听
     const { pageTableRef, handleResetBtnClick, handleSearchBtnClick } =
       usePageSearch()
-    // 回调函数
+
+    const pageTittle = ref('')
+    // 新建数据dialog的回调函数
     const newCallback = () => {
       const passwordItem = dialogConfig.formProps.find((item) => item.field == 'password')
-      if (passwordItem) {
-        passwordItem.isHiden = false
-      }
+      passwordItem!.isHiden = false
+      pageTittle.value = "新建用户"
+      // console.log(dialogConfig);
+      // 为什么dialogConfig变了，但是dialog没变！！！！！！！
     }
+
+    // 编辑数据dialog的回调函数
     const editCallback = () => {
       const passwordItem = dialogConfig.formProps.find((item) => item.field == 'password')
-      if (passwordItem) {
-        passwordItem.isHiden = true
-      }
-      // 动态添加department&role
-      const store = useStore()
-      const department = store.state.allDepartment
-      const departmentOptions = department.map(item => {
+      passwordItem!.isHiden = true
+      pageTittle.value = "编辑用户"
+    }
+    // 动态添加department&role
+    const store = useStore()
+    const dialogConfigRef = computed(() => {
+      const allDepartment = store.state.allDepartment
+      const allRole = store.state.allRole
+      const departmentItem = dialogConfig.formProps.find(item => item.field == 'department')
+      departmentItem!.dateOptions = allDepartment.map(item => {
         return { title: item.name, value: item.id }
       })
-      const departmentSet = dialogConfig.formProps.find(item => item.field == 'department')?.dateOptions
-      departmentSet.push(departmentOptions)
-      console.log(departmentSet);
 
-    }
+      const roleItem = dialogConfig.formProps.find(item => item.field == 'role')
+      const roleSetting = allRole.map(item => {
+        return { title: item.name, value: item.id }
+      })
+      roleItem?.dateOptions.push(...roleSetting)
+      return dialogConfig
+    })
+
+
     // table也页面点击监听
     const { dialogRef, defaultInfo, handleCreateClick, handleEditClick } = usePageDialog(newCallback, editCallback)
     return {
       formConfig,
-      dialogConfig,
+      dialogConfigRef,
       listProps,
       pageTableRef,
       dialogRef,
       defaultInfo,
+      pageTittle,
       handleResetBtnClick,
       handleSearchBtnClick,
       handleCreateClick,

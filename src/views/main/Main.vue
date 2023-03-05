@@ -3,15 +3,12 @@
     <el-container class="container">
       <!-- 侧边栏 -->
       <el-aside :width="isCollapse ? '4em' : '13.25em'">
-        <navMenu :collapse="isCollapse" />
+        <navMenu :collapse="isCollapse" class="aside" />
       </el-aside>
       <!-- 主容器 -->
-      <el-container
-        class="nav-container"
-        :style="{
-          left: isCollapse ? '4em' : '13.25em'
-        }"
-      >
+      <el-container class="nav-container" :style="{
+        left: isCollapse ? '4em' : '13.25em'
+      }">
         <el-header class="nav-header">
           <navHeader @foldChange="foldChange" />
         </el-header>
@@ -60,6 +57,11 @@ export default defineComponent({
   top: 0;
   left: 0;
   bottom: 0;
+  overflow: auto;
+}
+
+.el-aside::-webkit-scrollbar {
+  width: 0px;
 }
 
 .nav-container {

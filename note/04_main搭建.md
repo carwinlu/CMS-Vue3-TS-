@@ -107,9 +107,7 @@
 
 ## 页面搭建
 
-### 高级组件封装
-
-#### 搜索框
+### 搜索框组件封装
 
 - 实现内容：
 
@@ -139,8 +137,8 @@
 
         _uesRoute() 和 useRouter() 的差别_
 
-        - route 是一个路由对象，每个路由都有对应的路由对象，是一个局部的对象；可用于获取对应的 name、path、params、query 等
-        - router 是 VueRouter 的一个全局对象，通过`Vue.use(VueRouter)和VueRouter构造函数`得到一个 _router 的实例对象_，他包含了所有的路由包含了许多关键的对象和属性。
+        - route 是一个跳转的路由对象，每个路由都有对应的路由对象，是一个局部的对象；可用于获取对应的 name、path、params、query 等
+        - router 是 VueRouter 的一个全局对象，通过`Vue.use(VueRouter)和VueRouter构造函数`得到一个 _router 的实例对象_，他包含了所有的路由包含了许多关键的对象和属性，包括history和push
 
      2. 匹配 menu
      3. 如果 path 为‘/main’，就映射到第一个 item 的路径上
@@ -151,12 +149,14 @@
 ```vue
 // 因为itemNames是依托下列条件变Q:化的属性，所有要用计算属性包裹； //
 这也是为什么要以参数形式传输path和menu的原因；方便监听其变化 //
-Q:computed的原理是什么？ const itemNames = computed(() => { const menu =
-store.state.loginModule.userMenu const currentPath = useRoute().path const
-menuName = getParentMenu(menu, currentPath) return menuName })
+Q:computed的原理是什么？ 
+const itemNames = computed(() => { 
+  const menu =store.state.loginModule.userMenu 
+  const currentPath = useRoute().path 
+  const menuName = getParentMenu(menu, currentPath) 
+  return menuName 
+})
 ```
-
-### 双向绑定表单
 
 ### 表格 table 组件
 
@@ -203,7 +203,7 @@ menuName = getParentMenu(menu, currentPath) return menuName })
 - 3.搜索按钮监听
   每次点击重置和搜索按钮，重新发送请求；queryInfo
 
-### (doing)国际化
+### (doing)elPlus国际化
 
 问题：配置 elplus 时，被要求有 cnzh 的 ts 声明文件。。。
 
@@ -254,7 +254,7 @@ menuName = getParentMenu(menu, currentPath) return menuName })
 * 集合所有permission
 * usePermission(pageName,'create || delete || update || query')；使用usePermission方法判断；
 
-# 增删改功能实现
+# 表格增删改功能实现
 
 1. 删除功能
    1. 拼接url；
@@ -270,16 +270,44 @@ menuName = getParentMenu(menu, currentPath) return menuName })
    4. 某些input需要隐藏（不用）：isHidden => 修改isHidden控制表单是否显示密码input；  不在usePageDialog中直接改isHidden，而是定义两个回调函数控制；更灵活
       1. 即时通讯技术（socket）：服务器主动推送已更新数据
       2. 短时通讯：发送HTTP请求，服务器返回数据
-   5. 角色数据请求：
+
+**暂时跳过**
+   5. （doing）角色数据请求：
       1. 结果放在rootState上，避免因权限问题无法获取；
-      2. 配置到user的dialog配置选项上
-3. 
+         1. **配置到user的dialog配置选项上;**
+            1. **大问题！！！为什么！！！！！！！我的config变了表单不会变！！！！！！！！**
+            2. 想法一：是不是我的dialogConfigRef的问题，config不能是ref？NONO!
+            3. 想法二：我的myForm组件的问题，可能性不大
+            4. 想法三：我的表单缺乏响应式？就是虽然我的config变了，但是并没有响应变化，变化也没有被监听到
+   6. （doing）新建角色确认按钮逻辑：
+      1. **为什么在hooks/useDialog中，dialogRef会不存在？
+          这会不会和我的config不变有关系？
+
+   7. （doing）新建角色：权限分配；
+**暂时跳过**
+
+   8. 退出登录
+
+# 图表绘制Echart
+## echarts的基本使用方法
+1. 一个echartInstance
+2. 获取到相应的div实例（divRef）
+3. 配置Option
+<img src="./img/Snipaste_2023-03-01_20-50-49.png"/>
 
 
+1. 获取这几个图表所需要数据,将其保存至Dashboard模块中
+2. 封装eCharts；
+   1. 达成目的：
+      1. 传入Options
 
-#### remain question：
+### Canvas & SVG的优劣势比较
 
-- 怎么把我们写 el-form 的属性提醒作为类型提出来呢？这样就不用写一堆 lineWidth 这种了
+
+# remain question：
+未解决问题使用**标志，
+
+- **怎么把我们写 el-form 的属性提醒作为类型提出来呢？这样就不用写一堆 lineWidth 这种了
 
 - computed 的原理？
 
@@ -303,4 +331,28 @@ menuName = getParentMenu(menu, currentPath) return menuName })
 ```:preview-teleported=true ；```
 image-viewer 是否插入至 body 元素上。 嵌套的父元素属性会发生修改时应该将此属性设置为 true；默认为 false
 
+- Uncaught TypeError: Cannot read properties of undefined (reading 'state')
+  为什么？！
+  ？不能在回调函数里面useStore？
+  并且也不可以在函数里面useRouter，猜测应该是固定程序；
 
+- 为什么formData变了！但是dialog的表单内容没有变！！！！
+  - 怀疑是前面watchformData的错误；改成原始方式监听可以成功
+  
+- **为什么！！！！！！！我的config变了表单不会变！！！！！！！！
+  - 不懂！！！！！
+
+- 每次登录后，需要刷新才能够正常跳转到页面？
+  - Unhandled error during execution of setup function
+  - name is undefined
+    ```js
+    //这几行代码的问题
+    const store = useStore()
+    const userInfo = store.state.loginModule.userInfo
+    const userName = userInfo.data.name
+  ```
+
+ **elPlus的翻译
+
+- **为什么在hooks/useDialog中，dialogRef会不存在？
+  - 这会不会和我的config不变有关系？
